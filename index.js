@@ -13,3 +13,20 @@ readStream.on("data", (chunk) => {
   console.log("data chunk received: ", chunk);
   console.log("========================");
 });
+
+// 2 - Use readable and writable streams to copy content from one file to another.
+const readFileStream = fs.createReadStream("./source.txt");
+const writeStream = fs.createWriteStream("./dist.txt");
+readFileStream.on("open", () => {
+  console.log("file open");
+});
+readFileStream.on("ready", () => {
+  console.log("file is ready to be read");
+});
+readFileStream.on("data", (chunk) => {
+  writeStream.write(chunk);
+});
+readFileStream.on("end", () => {
+  writeStream.end();
+  console.log("file copy completed");
+});
